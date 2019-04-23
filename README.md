@@ -12,7 +12,7 @@ Following the project presentation, I cleaned up some of the code, keeping only 
 The files used to download and clean data from the website are as follows:
 
 1. "Download MTA Data.ipynb"
-This notebook file automatically downloads files with the format turnstile_YYMMDD.txt from the webpage "http://web.mta.info/developers/turnstile.html" and outputs them as a text files in the "Turnstile Data/Downloads" folder.
+This notebook file automatically downloads files with the format turnstile_YYMMDD.txt from the webpage "http://web.mta.info/developers/turnstile.html" and outputs them as a text files in the "Turnstile Data/Downloads" folder. Note that this notebook is now outdated, since MTA uploads data on a weekly basis, which changes the indices for the correct links.
 
 2. "Value Counts.ipynb"
 This notebook reads the file turnstile_190330.txt in the "Turnstile Data/Downloads" folder, counts the value differences between two time stamps, sums up all the counts from all units with a given station name, then outputs the files "valuecount_190330_df_08to12.csv", "valuecount_190330_df_12to16.csv", and "valuecount_190330_df_16to20.csv". An issue with this approach is that there may be multiple stations with the same station name. Unfortunately, there was no way to resolve this, because the turnstile data were incompatible with the data provided by MTA for the station names.
