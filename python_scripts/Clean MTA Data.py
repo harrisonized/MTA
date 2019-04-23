@@ -114,11 +114,7 @@ def grabweek():
         value_count_df_1to2 = value_count_df_1to2.rename(columns={'ValueCount':"{}".format(str(timestamp_list[j]))})
 
 
-latlong_df = pd.read_csv(r"latlong_clean.csv") # Import latlong_clean.csv, which was exported from a different notebook file. This will be used at the end to collect all the data together.
-latlong_df = latlong_df.drop(columns={"Unnamed: 0", "Numbering"}) # Dropping the "Unnamed: 0" and "Numbering" column
-latlong_df.head() # Preview the data
 
-# Grabbing turnstile filenames for the last year from the MTA website
 # Grabs all the links in the mta webpage and collects the names for the last year into turnstile_link_list
 URL = "http://web.mta.info/developers/turnstile.html"
 soup = bs4.BeautifulSoup(urlopen(URL))
@@ -126,7 +122,14 @@ all_link_list = []
 for link in soup.findAll('a'):
     all_link_list.append(link.get('href'))
 turnstile_link_list = [all_link_list[36:89][i].replace("data/nyct/turnstile/", "") for i in range(len(link_list[36:89]))]
-turnstile_link_list
+
+
+
+# Import latlong_clean.csv, which was exported from a different notebook file.
+latlong_df = pd.read_csv(r"Coordinate Data/latlong_clean.csv")
+latlong_df = latlong_df.drop(columns={"Unnamed: 0", "Numbering"}) # Dropping the "Unnamed: 0" and "Numbering" column
+latlong_df.head() # Preview the data
+
 
 
 """
@@ -139,11 +142,11 @@ Notes:
 4. Files to skip: turnstile_190316.txt, turnstile_181110.txt
 5. Note: See below for files that weren't processed correctly due to daylight savings
 
-Warning: This may take a long time! On my computer, it outputs 2-3 files per minute and ran for 20 min+
+Warning: This may take a long time! On my computer, it outputs 2-3 files per minute and ran for 20 min+.
 """
 for i in turnstile_link_list[25:len(turnstile_link_list)]: # Note, if loop stops, restart at an appropriate lowerbound for range
 
-    turnstile_df = pd.read_csv(i) # File imports
+    turnstile_df = pd.read_csv(r"Turnstile Data/Downloads/{}".format(i)) # File imports
     format_turnstile_df(turnstile_df) # Warning: Run once per file import ONLY
 
     generate_timestamp_list() # Generating list of timestamps
@@ -154,7 +157,7 @@ for i in turnstile_link_list[25:len(turnstile_link_list)]: # Note, if loop stops
     value_count_df_1to2_with_coord = latlong_df.merge(value_count_df_1to2, on=["StationName"], how='left').reset_index(drop=True)
     value_count_df_1to2_with_coord.head() # Preview the final data
 
-    value_count_df_1to2_with_coord.to_csv("{}_proc.csv".format(i.replace(".txt","")))
+    value_count_df_1to2_with_coord.to_csv(r"Turnstile Data/Processed CSV/{}_proc.csv".format(i.replace(".txt","")))
     
 
 
@@ -183,7 +186,7 @@ Warning: This may take a long time! On my computer, it outputs 2-3 files per min
 
 for i in turnstile_link_list[3:21]: # Note, if loop stops, restart at an appropriate lowerbound for range
 
-    turnstile_df = pd.read_csv(i) # File imports
+    turnstile_df = pd.read_csv(r"Turnstile Data/Downloads/{}".format(i)) # File imports
     format_turnstile_df(turnstile_df) # Warning: Run once per file import ONLY
 
     generate_timestamp_list_dst() # Generating list of timestamps
@@ -194,4 +197,4 @@ for i in turnstile_link_list[3:21]: # Note, if loop stops, restart at an appropr
     value_count_df_1to2_with_coord = latlong_df.merge(value_count_df_1to2, on=["StationName"], how='left').reset_index(drop=True)
     value_count_df_1to2_with_coord.head() # Preview the final data
 
-    value_count_df_1to2_with_coord.to_csv("{}_proc.csv".format(i.replace(".txt","")))
+    value_count_df_1to2_with_coord.to_csv(r"Turnstile Data/Processed CSV/{}_proc.csv".format(i.replace(".txt","")))
