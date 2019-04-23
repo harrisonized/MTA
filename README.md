@@ -1,6 +1,6 @@
 # MTA Exploratory Data Analysis
 
-This was the first project assigned at Metis. Its purpose was to become familiar with some tools used in exploratory data analysis using Python, which includes the following:
+This was the first project assigned at Metis. The purpose was to become familiar with some tools used in exploratory data analysis using Python, which includes the following:
 1. Web scraping using BeautifulSoup
 2. Data cleaning and analysis using pandas
 3. Visualization using matplotlib.
