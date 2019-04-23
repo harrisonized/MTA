@@ -1,31 +1,27 @@
-# MTA Data Analysis
-Repository for the Data Analysis on the NYC MTA turnstile datasets
+# MTA Exploratory Data Analysis
 
-"""
-Docs from Harrison:
+This was the first project assigned at Metis. Its purpose was to become familiar with some tools used in exploratory data analysis using Python, which includes the following:
+1. Web scraping using BeautifulSoup
+2. Data cleaning and analysis using pandas
+3. Visualization using matplotlib.
 
-Please see Metis_Project1_Presentation.pptx for the results. There are three main files used in the pipeline from data to results:
+The vast majority of the code was run in IPython Notebooks, which were useful as a training tool, since I could test blocks of code at a time without using the command line. Since I only had one week to bring the project to completion, this project is by no means complete. I may revisit it on a future date.
 
-1. 20190403 Metis Project 1 Analyzing MTA Data v15 final.ipynb
-    This notebook file automatically downloads files with the format turnstile_YYMMDD.txt from the webpage "http://web.mta.info/developers/turnstile.html" and outputs them as a text files. After that, it reads files with the name turnstile_YYMMDD.txt, computes the value differences between counts to belonging to different timestamps, and exports turnstile_YYMMDD_proc.csv for the next part of the analysis. See turnstile_190330_proc.csv or turnstile_190323_proc.csv for examples of the processed export. Exports include latitude and longitude data gathered from the geocoder module (see next).
+Following the project presentation, I cleaned up some of the code, keeping only the ones that were used to generate the final figures. I kept the original .ipynb files, so that some of the outputs may be seen. For those who wish to see only the code, please look under the python_scripts folder.
 
-2. 20190404 Use Geocoder to Grab Coordinates.ipynb
-    This notebook file opens valuecount_190330_df_08to12.csv, an intermediate output of the previous notebook that contains unique station names. It adds "Station, NY" to the station name and uses the geocoder module to grab latitude and longitude data, then exports it as latlong_clean.csv for the graphing part of the pipeline. Adi helped out in starting this module.
+The files used to download and clean data from the website are as follows:
 
-3. 20190405 Graphing the MTA Data v3.ipynb
-    This notebook file opens all turnstile_YYMMDD_proc.csv files (exported from 20190403 Metis Project 1 Analyzing MTA Data v15 final.ipynb) as dataframes and concatenates them into a single dataframe for analysis and graphing. Since the dataframes already contain coordinates, it is also able pass it directly into a gmaps heatmap.
+1. "Download MTA Data.ipynb"
+This notebook file automatically downloads files with the format turnstile_YYMMDD.txt from the webpage "http://web.mta.info/developers/turnstile.html" and outputs them as a text files in the "Turnstile Data/Downloads" folder.
 
-Other files:
+2. "Value Counts.ipynb"
+This notebook reads the file turnstile_190330.txt in the "Turnstile Data/Downloads" folder, counts the value differences between two time stamps, sums up all the counts from all units with a given station name, then outputs the files "valuecount_190330_df_08to12.csv", "valuecount_190330_df_12to16.csv", and "valuecount_190330_df_16to20.csv". An issue with this approach is that there may be multiple stations with the same station name. Unfortunately, there was no way to resolve this, because the turnstile data were incompatible with the data provided by MTA for the station names.
 
-1. 20190405 Grabbing links from webpage.ipynb
-    This script is a subset of the first file above (20190403 Metis Project 1 Analyzing MTA Data v15 final.ipynb), just the part that opens the webpage "http://web.mta.info/developers/turnstile.html" and outputs them as a text files.
-    
-2.  turnstile_dst_cat.csv and turnstile_norm_cat.csv
-    These files are outputs of concatenated data from the third file above (20190405 Graphing the MTA Data v3.ipynb), which serve as a save point in case the kernel was reset.
-    
-3. TechHubLocations.csv
-    This was committed by Adi, who pulled this list of tech hubs from google.
+3. Grab Coordinates.ipynb
+This notebook file opens valuecount_190330_df_08to12.csv, the output of the previous notebook that contains unique station names. It adds "Station, NY" to the station name and uses the geocoder module to grab latitude and longitude data, then exports it as "latlong_clean.csv" in the "Coordinate Data" folder.
 
-4. StationEntrances.csv
-    This was downloaded from the webpage "http://web.mta.info/developers/data/nyct/subway/StationEntrances.csv". The station names provided by this dataset differed greatly from the station names provided by the turnstile data and could not be merged reliably, so this file remains unused.
-"""
+4. "Clean MTA Data.ipynb"
+This notebook reads files with the name turnstile_YYMMDD.txt in the "Turnstile Data/Downloads" folder, computes the value differences between counts to belonging to different timestamps, and then exports files with the name turnstile_YYMMDD_proc.csv in the folder "Turnstile Data/Processed CSV" for the next part of the analysis. It uses merges the time count data with the coordinates provided in "latlong_clean.csv".
+
+5. Concat MTA Data.ipynb
+This notebook file opens all turnstile_YYMMDD_proc.csv files (exported from 20190403 Metis Project 1 Analyzing MTA Data v15 final.ipynb) as dataframes and concatenates them into a single dataframe for analysis and graphing. Since the dataframes already contain coordinates, it is also able pass it directly into a gmaps heatmap.
