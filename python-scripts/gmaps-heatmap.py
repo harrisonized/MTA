@@ -27,17 +27,17 @@ filenames_list = glob.glob("data/turnstile/processed-csv/*_proc.csv") # Grab a l
 filenames_list = sorted(filenames_list)
 
 # Separate into two groups based on timestamps
-filenames_list_norm = filenames_list[0:32] + filenames_list[49:] 
-turnstile_proc_norm = [pd.read_csv(filename) for filename in filenames_list_norm] # Put the dataframes into a list that can be called by index
-filenames_list_dst = filenames_list[32:49]
-turnstile_proc_dst = [pd.read_csv(filename) for filename in filenames_list_dst] # Put the dataframes into a list that can be called by index
+filenames_edt_list = filenames_list[0:32] + filenames_list[49:] 
+turnstile_edt_proc = [pd.read_csv(filename) for filename in filenames_edt_list] # Put the dataframes into a list that can be called by index
+filenames_est_list = filenames_list[32:49]
+turnstile_est_proc = [pd.read_csv(filename) for filename in filenames_est_list] # Put the dataframes into a list that can be called by index
 
 
 
 # Plot weights at the timestamp '2018-03-24 00:00:00'
 figure_layout = {'width': '800px', 'height': '600px','padding': '1px', 'margin': '0 auto 0 auto'} #Configuring the dimensions
-locations = turnstile_proc_norm[0][['Latitude', 'Longitude']].iloc[0:20] #Get the locations from the data set
-weights = turnstile_proc_norm[0]['2018-03-24 00:00:00'].iloc[0:20] #Get the weights from the data
+locations = turnstile_edt_proc[0][['Latitude', 'Longitude']].iloc[0:20] #Get the locations from the data set
+weights = turnstile_edt_proc[0]['2018-03-24 00:00:00'].iloc[0:20] #Get the weights from the data
 
 #Set up the map
 fig = gmaps.figure(layout=figure_layout)
