@@ -17,7 +17,6 @@ def format_turnstile_df(turnstile_csv_df):
     turnstile_csv_df is the dataframe of the imported turnstile.csv file
     Warning: Run once per file ONLY. The function will throw an error if run twice on the same file.
     """
-    global turnstile_df
     turnstile_df = turnstile_csv_df
     
     # Reformatting steps (Warning: May take a few seconds.)
@@ -28,7 +27,7 @@ def format_turnstile_df(turnstile_csv_df):
     turnstile_df.DATETIMERAW = turnstile_df.DATETIMERAW.apply(lambda x : dt.datetime.strptime(x, "%m/%d/%Y%H:%M:%S")) # Convert DATETIMERAW into datetime object
     turnstile_df.TIME = turnstile_df.TIME.apply(lambda x : dt.datetime.strptime(x, "%H:%M:%S")) # Convert TIME into datetime object
     turnstile_df = turnstile_df.drop(columns = ['DATE']) # Drop DATE column
-
+    return turnstile_df
     
     
 def valuecount(timestamp1, timestamp2):
@@ -38,7 +37,6 @@ def valuecount(timestamp1, timestamp2):
     Both timestamp1 and timestamp2 should be datetime objects. Also, timestamp2 should be greater than timestamp1.
     This function is not run as a standalone function. It is run within the grabweek() function.
     """
-    global value_count_df
     
     # Grab data
     turnstile_df1 = turnstile_df.loc[turnstile_df['DATETIMERAW'].isin([timestamp1])].reset_index(drop=True) # Grab dataset for timestamp1
@@ -66,44 +64,44 @@ def valuecount(timestamp1, timestamp2):
     value_count_df = pd.DataFrame.from_dict(value_count_dict).transpose() # Grabbing values
     value_count_df.columns = ["ValueCount"] # Renaming column to ValueCount
     value_count_df = value_count_df.sort_values(by=["ValueCount"], ascending=False) # Sorting by count
+    return value_count_df
 
 
-
-turnstile_df = pd.read_csv(r"Turnstile Data/Downloads/turnstile_190330.txt")
-format_turnstile_df(turnstile_df)
+turnstile_csv_df = pd.read_csv(r"data/turnstile/downloads/turnstile_190330.txt")
+turnstile_df = format_turnstile_df(turnstile_csv_df)
 
 
 
 # Grab data between 8am and 12pm for the whole week
-valuecount(dt.datetime(2019, 3, 23, 8, 0), dt.datetime(2019, 3, 23, 12, 0))
+value_count_df = valuecount(dt.datetime(2019, 3, 23, 8, 0), dt.datetime(2019, 3, 23, 12, 0))
 value_count_df_08to12 = value_count_df[["ValueCount"]]
 value_count_df_08to12.columns = ["23"]
 
 for i in range(24, 30):
     valuecount(dt.datetime(2019, 3, i, 8, 0), dt.datetime(2019, 3, i, 12, 0))
     value_count_df_08to12["{}".format(i)] = value_count_df[["ValueCount"]]
-value_count_df_08to12.to_csv(r"ValueCount Data/valuecount_190330_df_08to12.csv")
+value_count_df_08to12.to_csv(r"data/value-count/valuecount_190330_df_08to12.csv")
 
 
 
 # Grab data between 12pm and 4pm for the whole week
-valuecount(dt.datetime(2019, 3, 23, 12, 0), dt.datetime(2019, 3, 23, 16, 0))
+value_count_df = valuecount(dt.datetime(2019, 3, 23, 12, 0), dt.datetime(2019, 3, 23, 16, 0))
 value_count_df_12to16 = value_count_df[["ValueCount"]]
 value_count_df_12to16.columns = ["23"]
 
 for i in range(24, 30):
     valuecount(dt.datetime(2019, 3, i, 12, 0), dt.datetime(2019, 3, i, 16, 0))
     value_count_df_12to16["{}".format(i)] = value_count_df[["ValueCount"]]
-value_count_df_12to16.to_csv(r"ValueCount Data/valuecount_190330_df_12to16.csv")
+value_count_df_12to16.to_csv(r"data/value-count/valuecount_190330_df_12to16.csv")
 
 
 
 # Grab data between 4pm and 8pm for the whole week
-valuecount(dt.datetime(2019, 3, 23, 16, 0), dt.datetime(2019, 3, 23, 20, 0))
+value_count_df = valuecount(dt.datetime(2019, 3, 23, 16, 0), dt.datetime(2019, 3, 23, 20, 0))
 value_count_df_16to20 = value_count_df[["ValueCount"]]
 value_count_df_16to20.columns = ["23"]
 
 for i in range(24, 30):
     valuecount(dt.datetime(2019, 3, i, 16, 0), dt.datetime(2019, 3, i, 20, 0))
     value_count_df_16to20["{}".format(i)] = value_count_df[["ValueCount"]]
-value_count_df_16to20.to_csv(r"ValueCount Data/valuecount_190330_df_16to20.csv")
+value_count_df_16to20.to_csv(r"data/value-count/valuecount_190330_df_16to20.csv")
