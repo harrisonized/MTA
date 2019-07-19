@@ -38,3 +38,5 @@ This notebook file opens "turnstile_norm_cat.csv" and "turnstile_dst_cat.csv" an
 7. "Heatmap with gMaps API.ipynb"
 
 This notebook file accesses data from '2018-03-24 00:00:00' and plots a heatmap of the valuecounts at each given station. It also imports "TechHubLocations.csv" from the "Extra Data" folder and plots those locations using gmaps API. See "heatmap.png" and "techhubs.png" in the "Figures" folder.
+
+For a summary of what I learned from doing this project, please read my [blog post](https://harrisonized.github.io/2019/04/23/mta.html), and feel free to [email me](mailto:harrisonized@gmail.com) with any questions!
