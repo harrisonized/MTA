@@ -24,6 +24,6 @@ for i in range(0, len(turnstile_link_list)):
     url="http://web.mta.info/developers/"+all_link_list[36:89][i] # Defining the webpage link
     r = requests.get(url) # Gets the data
     
-    file = open('{}'.format(turnstile_link_list[i]), 'w') # Create empty file and open
+    file = open('data/turnstile/downloads{}'.format(turnstile_link_list[i]), 'w') # Create empty file and open
     file.write(r.text) # Write the data
     file.close()

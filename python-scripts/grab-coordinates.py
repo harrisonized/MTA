@@ -6,13 +6,13 @@ import warnings # Turn off warnings
 warnings.filterwarnings('ignore')
 
 import geocoder
-with open(r'/home/harrisonized/Desktop/gmaps_apikey.txt') as f: # Grab Google API Key
+with open(r'/home/harrisonized/Desktop/.API Keys/gmaps_apikey.txt') as f: # Grab Google API Key
     api_key = f.readline()
     f.close
 
 
 
-valuecount_df = pd.read_csv(r"ValueCount Data/valuecount_190330_df_08to12.csv") # File import
+valuecount_df = pd.read_csv(r"data/value-count/valuecount_190330_df_08to12.csv") # File import
 
 
 
@@ -29,8 +29,8 @@ for i in range(len(station_name_index_df['latlong'])):
 
 
 
-station_name_index_df.to_csv("latlong.csv") # Export output to CSV file as a save point, in case data becomes inaccessible
-latlong_df = pd.read_csv(r"latlong.csv")
+station_name_index_df.to_csv("data/coordinate/latlong.csv") # Export output to CSV file as a save point, in case data becomes inaccessible
+latlong_df = pd.read_csv(r"data/coordinate/latlong.csv")
 
 
 
@@ -44,4 +44,4 @@ latlong_df.Latitude = latlong_df.Latitude.apply(lambda x : float(x)) # Convertin
 
 
 
-latlong_df.to_csv("latlong_clean.csv")
+latlong_df.to_csv("data/coordinate/latlong-clean.csv")

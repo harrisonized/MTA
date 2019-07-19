@@ -16,14 +16,14 @@ pd.set_option("precision", 3)
 import geocoder
 import gmaps
 import gmaps.datasets
-with open(r'/home/harrisonized/Desktop/gmaps_apikey.txt') as f: # Grab API Key
+with open(r'/home/harrisonized/Desktop/.API Keys/gmaps_apikey.txt') as f: # Grab API Key
     api_key = f.readline()
     f.close
 gmaps.configure(api_key=api_key) # Fill in API Key
 
 
 
-filenames_list = glob.glob("Turnstile Data/Processed CSV/*_proc.csv") # Grab a list of filenames
+filenames_list = glob.glob("data/turnstile/processed-csv/*_proc.csv") # Grab a list of filenames
 filenames_list = sorted(filenames_list)
 
 # Separate into two groups based on timestamps
@@ -48,7 +48,7 @@ fig # Show figure
 
 
 
-tech_hub_locations_df = pd.read_csv("Extra Data/TechHubLocations.csv")
+tech_hub_locations_df = pd.read_csv("data/extra/tech-hub-locations.csv")
 
 
 
