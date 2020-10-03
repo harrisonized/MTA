@@ -27,7 +27,7 @@ This opens one of the files in the data/downloads folder and uses the station na
 
 This reads in csv files in the data/downloads folder and reshapes them into a new table in which the index is the timestamp and the columns are stations. It then concatenates the data for an entire year and computes the count differences between different timestamps. Finally, it exports the data to station-counts.csv.
 
-4. [plot-counts.ipynb](https://github.com/harrisonized/mta/blob/master/plot-counts.py)
+4. [plot-counts.ipynb](https://github.com/harrisonized/mta/blob/master/plot-counts.ipynb)
 
 This gets data from station-counts.csv and plots a histogram of number of people per week and a time-series graph for the week of 20180324 to 20280331. For historic reasons, I decided to keep it this way rather than going back and computing mean statistics across all the weeks obtained.
 
