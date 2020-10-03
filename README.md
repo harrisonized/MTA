@@ -1,42 +1,42 @@
 # MTA Exploratory Data Analysis
 
-This was the first project assigned at Metis. The purpose was to become familiar with some tools used in exploratory data analysis using Python, which includes the following:
-1. Web scraping using BeautifulSoup
-2. Data cleaning and analysis using pandas
-3. Visualization using matplotlib.
+This was the first and only group project assigned at Metis. The prompt is as follows:
 
-The vast majority of the code was run in IPython Notebooks, which were useful as a training tool, since I could test blocks of code at a time without using the command line. Since I only had one week to bring the project to completion, there are some aspects with the project that I felt were rushed. I may revisit it on a future date.
+> "WomenTechWomenYes (WTWY) has an annual gala at the beginning of the summer each year. As we are new and inclusive organization, we try to do double duty with the gala both to fill our event space with individuals passionate about increasing the participation of women in technology, and to concurrently build awareness and reach.
+>
+> To this end we place street teams at entrances to subway stations. The street teams collect email addresses and those who sign up are sent free tickets to our gala.
+>
+> Where we’d like to solicit your engagement is to **use MTA subway data**, which as I’m sure you know is available freely from the city, to **help us optimize the placement of our street teams**, such that we can gather the most signatures, ideally from those who will attend the gala and contribute to our cause.
+>
+> The ball is in your court now—do you think this is something that would be feasible for your group? From there we can explore what kind of an engagement would make sense for all of us."
+>
 
-Following the project presentation, I cleaned up some of the code, keeping only the ones that were used to generate the final figures. I kept the original format of the .ipynb files in order to show some of the outputs, which were helpful during the coding part. For those who wish to see only the code, please look under the python_scripts folder.
+The purpose was to meet some fellow students and become familiar with some Python tools used for data scraping, exploratory data analysis, and visualization. I was partnered up with fellow students [Adi Guar](https://www.linkedin.com/in/gaur1/) and [Genevieve McGuire](https://www.linkedin.com/in/genevieve-mcguire/) on Monday, April 1st, with a due-date of Friday, April 5th. Following the presentation, I refactored our code and shelved it, leaving behind just enough notes to reconstruct what I did.
 
-The files used to download and clean data from the website are as follows:
+After having worked in industry for a year, I thought it would be appropriate to revisit this project to see how far I've come. The first time I did this project, I thought it was a herculean effort, requiring hundreds of lines of code. However, having now done many similar EDA projects, I found that I was able to simplify all the code to five easy-to-follow Jupyter notebooks and store the data in just a few CSV files.
 
-1. [download-data.py](https://github.com/harrisonized/mta/blob/master/python-scripts/download-data.py)
+1. [get-data-from-mta.ipynb](https://github.com/harrisonized/mta/blob/master/get-data-from-mta.ipynb)
 
-This file automatically downloads files with the format turnstile_YYMMDD.txt from the webpage "http://web.mta.info/developers/turnstile.html" and outputs them as a text files in the data/turnstile/downloads folder. Note that this notebook is now outdated, since MTA uploads data on a weekly basis, which changes the indices for the correct links.
+This automatically downloads turnstile_YYMMDD.txt files from the [MTA Website](http://web.mta.info/developers/turnstile.html) and outputs them as a csv files in the data/downloads folder.
 
-2. [value-counts.py](https://github.com/harrisonized/mta/blob/master/python-scripts/value-counts.py)
+2. [get-coordinates-from-google.ipynb](https://github.com/harrisonized/mta/blob/master/get-coordinates-from-google.ipynb)
 
-This file reads the file turnstile_190330.txt in the data/turnstile/downloads folder, counts the value differences between two time stamps, sums up all the counts from all units with a given station name, then outputs the files "valuecount_190330_df_08to12.csv", "valuecount_190330_df_12to16.csv", and "valuecount_190330_df_16to20.csv". An issue with this approach is that it combined value-counts from multiple stations with the same station name. Unfortunately, there is currently no way to resolve this, because the turnstile data were incompatible with the station entrances data provided by MTA (see station-entrances.csv in the data/extra folder.)
+This opens one of the files in the data/downloads folder and uses the station names to grab the latitude and longitude data using [Google's Geocoding API](https://geocoder.readthedocs.io/), then exports the data to data/station-coordinates.csv.
 
-3. [grab-coordinates.py](https://github.com/harrisonized/mta/blob/master/python-scripts/grab-coordinates.py)
+3. [count-people.ipynb](https://github.com/harrisonized/mta/blob/master/count-people.ipynb)
 
-This file opens "valuecount_190330_df_08to12.csv", the output of the previous notebook that contains unique station names. It adds "Station, NY" to the station name and uses the geocoder module to grab latitude and longitude data, then exports it as "latlong-clean.csv" in the data/coordinate folder.
+This reads in csv files in the data/downloads folder and reshapes them into a new table in which the index is the timestamp and the columns are stations. It then concatenates the data for an entire year and computes the count differences between different timestamps. Finally, it exports the data to station-counts.csv.
 
-4. [clean-data.py](https://github.com/harrisonized/mta/blob/master/python-scripts/clean-data.py)
+4. [plot-counts.ipynb](https://github.com/harrisonized/mta/blob/master/plot-counts.py)
 
-This file reads files with the name turnstile_YYMMDD.txt in the data/turnstile/downloads folder, computes the value differences between counts to belonging to different timestamps, and then exports files with the name turnstile_YYMMDD_proc.csv in the folder data/turnstile/processed-csv for the next part of the analysis. It uses merges the time count data with the coordinates provided in latlong-clean.csv.
+This gets data from station-counts.csv and plots a histogram of number of people per week and a time-series graph for the week of 20180324 to 20280331. For historic reasons, I decided to keep it this way rather than going back and computing mean statistics across all the weeks obtained.
 
-5. [concat-data.py](https://github.com/harrisonized/mta/blob/master/python-scripts/concat-data.py)
+5. [plot-gmaps.ipynb](https://github.com/harrisonized/mta/blob/master/plot-gmaps.ipynb)
 
-This file opens all turnstile_YYMMDD_proc.csv files as dataframes and concatenates them into a single dataframe for graphing. Two sets of data were concatenated this way, one with daylight savings and one without. The two files exported are turnstile-edt-cat.csv and turnstile-est-cat.csv.
+This accesses data on '2018-03-24 00:00:00' and plots a heatmap of the value-counts at each given station for the top 10 stations. It also imports tech-hubs.csv from the data/extra folder and plots those locations using gmaps API.
 
-6. [plot-week-data.py](https://github.com/harrisonized/mta/blob/master/python-scripts/plot-week-data.py)
+6. [zip.ipynb](https://github.com/harrisonized/mta/blob/master/zip.ipynb)
 
-This file opens turnstile-edt-cat.csv and turnstile-est-cat.csv and creates a preliminary matplotlib figure that shows value-counts of the top 10 stations for the week of 03-24-2019. See week-data.png in the figures folder.
+This zips all the files in the data folder to save space.
 
-7. [gmaps-heatmap.py](https://github.com/harrisonized/mta/blob/master/python-scripts/gmaps-heatmap.py)
-
-This file accesses data from '2018-03-24 00:00:00' and plots a heatmap of the value-counts at each given station. It also imports tech-hub-locations.csv from the data/extra folder and plots those locations using gmaps API. See heatmap.png and tech-hubs.png in the figures folder.
-
-For a summary of what I learned from doing this project, please read my [blog post](https://harrisonized.github.io/2019/04/23/mta.html), and feel free to [email me](mailto:harrisonized@gmail.com) with any questions!
+Revisiting this project is a reminder that clarity in code is clarity in thoughts, and good code is always written to be modular and adaptable. Hope you enjoyed this little project, and if you have any questions, feel free to reach out to me at [harrison.c.wang@gmail.com](mailto:harrison.c.wang@gmail.com).
