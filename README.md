@@ -37,6 +37,6 @@ This accesses data on '2018-03-24 00:00:00' and plots a heatmap of the value-cou
 
 6. [zip.ipynb](https://github.com/harrisonized/mta/blob/master/zip.ipynb)
 
-This zips all the files in the data folder to save space.
+This zips all the files in the data folder to save space. You may also use this to unzip all the files.
 
-Revisiting this project is a reminder that clarity in code is clarity in thoughts, and good code is always written to be modular and adaptable. Hope you enjoyed this little project, and if you have any questions, feel free to reach out to me at [harrison.c.wang@gmail.com](mailto:harrison.c.wang@gmail.com).
+Revisiting this project is a reminder that clarity in code is clarity in thoughts, and good code is always written to be modular and adaptable. If you have any questions, feel free to reach out to me at [harrison.c.wang@gmail.com](mailto:harrison.c.wang@gmail.com).
