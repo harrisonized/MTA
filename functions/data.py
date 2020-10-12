@@ -18,3 +18,4 @@ def preprocess(df, is_est=False):
         df = df[df['time'].isin(['00:00:00', '04:00:00', '08:00:00', '12:00:00', '16:00:00', '20:00:00'])]
         
     return df
+    
